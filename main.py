@@ -107,7 +107,7 @@ churn_label_encoder = label_encoders['Churn']
 test_predictions_decoded = churn_label_encoder.inverse_transform(test_predictions)
 
 # Saving the predictions to a CSV file
-submission_data = pd.DataFrame({'CustomerID': test_data['customerID'], 'Churn': test_predictions_decoded})
+submission_data = pd.DataFrame({'CustomerID': test_data['customerID'], 'Churn_Prediction': test_predictions_decoded})
 submission_data.to_csv('data/churn_predictions.csv', index=False)
 
 print('Test predictions saved to data/churn_predictions.csv')
