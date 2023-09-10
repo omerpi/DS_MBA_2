@@ -92,5 +92,23 @@ print(f'Decision Tree F1 Score: {dt_f1:.2f}')
 print(f'KNN F1 Score: {knn_f1:.2f}')
 
 
+# Identifying the best model based on F1 Score
+best_model = max((lr_model, lr_f1), (dt_model, dt_f1), (knn_model, knn_f1), key=lambda pair: pair[1])[0]
 
-print("bla")
+# Preparing the test data
+X_test = test_data
+X_test = test_data.drop('Churn', axis=1)
+
+# Using the best model to make predictions on the test set
+test_predictions = best_model.predict(X_test)
+
+# Decoding the predictions back to original labels (Yes/No)
+churn_label_encoder = label_encoders['Churn']
+test_predictions_decoded = churn_label_encoder.inverse_transform(test_predictions)
+
+# Saving the predictions to a CSV file
+submission_data = pd.DataFrame({'CustomerID': test_data['customerID'], 'Churn': test_predictions_decoded})
+submission_data.to_csv('data/churn_predictions.csv', index=False)
+
+print('Test predictions saved to data/churn_predictions.csv')
+
